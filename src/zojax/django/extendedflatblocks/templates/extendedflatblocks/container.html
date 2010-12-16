@@ -1,0 +1,13 @@
+{% for item in items %}
+  {% with item.flatblock as flatblock %}
+    <dl class="portlet portletName">
+      <dt class="portletHeader">
+        {{ flatblock.header }}
+      </dt>
+      <dd class="portletItem odd">
+        {{ flatblock.content|safe }}
+      </dd>
+      <dd class="portletFooter">&nbsp;</dd>
+    </dl>
+  {% endwith %}
+{% endfor %}
