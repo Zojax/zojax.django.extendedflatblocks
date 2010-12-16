@@ -15,13 +15,15 @@ register = template.Library()
 
 class FlatBlockContainerNode(template.Node):
 
-    def __init__(self, request, name):
+    def __init__(self, request, name, template='extendedflatblocks/container.html'):
         self.request = request
         self.name = name
+        self.template = template
 
     def render(self, context):
         request = self.request.resolve(context)
         name = self.name.resolve(context)
+        template = self.template.resolve(context)
         try:
             container = FlatBlockContainer.objects.get(slug=name)
         except FlatBlockContainer.DoesNotExist:
@@ -44,7 +46,7 @@ class FlatBlockContainerNode(template.Node):
     
         items = filter(_item_available, items)
         context = RequestContext(request)
-        return mark_safe(render_to_string('extendedflatblocks/container.html', dict(container=container, items=items), context))
+        return mark_safe(render_to_string(template, dict(container=container, items=items), context))
     
 
 @register.tag
@@ -52,5 +54,7 @@ def flatblock_container(parser, token):
     bits = map(parser.compile_filter, token.split_contents())
     if len(bits) == 3:
         return FlatBlockContainerNode(bits[1], bits[2])
+    if len(bits) == 4:
+        return FlatBlockContainerNode(bits[1], bits[2], bits[3])
     else:
         raise template.TemplateSyntaxError, "Parameter Error: need request, and name parameter"
