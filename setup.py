@@ -3,9 +3,9 @@ import os
 
 version = '0.1dev'
 
-setup(name='zojax.django.extendedmenus',
+setup(name='zojax.django.extendedflatblocks',
       version=version,
-      description="Extensions for django-treemenus.",
+      description="Extensions for django-flatblocks.",
       long_description="",
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
@@ -13,8 +13,8 @@ setup(name='zojax.django.extendedmenus',
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='',
-      author='Andrey Fedoseev',
-      author_email='andrey.fedoseev@zojax.com',
+      author='Anatoly Bubenkov',
+      author_email='bubenkoff@gmail.com',
       url='',
       license='GPL',
       packages=find_packages('src'),
