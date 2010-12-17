@@ -40,4 +40,4 @@ class FlatBlockExtension(models.Model):
         verbose_name_plural = _(u"Flat block extensions")
         
     def __unicode__(self):
-        return '-'.join(self.container.slug, self.flatblock.slug, self.position, self.id)
+        return '-'.join((self.container.slug, self.flatblock.slug, self.position, self.id))
