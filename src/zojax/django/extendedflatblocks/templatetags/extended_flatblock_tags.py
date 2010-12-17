@@ -23,8 +23,9 @@ class FlatBlockContainerNode(template.Node):
     def render(self, context):
         request = self.request.resolve(context)
         name = self.name.resolve(context)
+        template = self.template
         if not isinstance(self.template, basestring):
-            template = self.template.resolve(context)
+            template = template.resolve(context)
         try:
             container = FlatBlockContainer.objects.get(slug=name)
         except FlatBlockContainer.DoesNotExist:
