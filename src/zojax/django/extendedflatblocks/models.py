@@ -36,6 +36,7 @@ class FlatBlockExtension(models.Model):
     only_authenticated = models.BooleanField(default=False)
     
     class Meta:
+        ordering = ['position']
         verbose_name = _(u"Flat block extension")
         verbose_name_plural = _(u"Flat block extensions")
         
