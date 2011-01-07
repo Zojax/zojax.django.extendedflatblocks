@@ -20,7 +20,7 @@ class FlatBlockContainer(models.Model):
     
     
     def get_items(self):
-        return self.flatblockextension_set.select_related().order_by('-position')
+        return self.flatblockextension_set.select_related().order_by('position')
     
     def __unicode__(self):
         return self.slug
