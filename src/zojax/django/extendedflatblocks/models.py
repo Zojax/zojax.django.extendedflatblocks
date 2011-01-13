@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from flatblocks.models import FlatBlock
-    
+import re
     
 PORTLET_REGISTRY = {}
 
@@ -70,6 +70,21 @@ class FlatBlockExtension(models.Model):
         portlet = get_portlet(self.portlet)(request)
         portlet.update()
         return portlet
+    
+    def isAvailable(self, request):
+        if not self.flatblock:
+            portlet = get_portlet(self.portlet)(request)
+            portlet.update()
+            if not portlet.available:
+                return False
+        available_patterns = self.available_patterns.splitlines()
+        if available_patterns:
+            for pattern in available_patterns:
+                if re.compile(pattern).match(request.path):
+                    return True
+            return False
+        else:
+            return True
 
 
 class Portlet(object):
@@ -80,6 +95,7 @@ class Portlet(object):
     header = u''
     content = u''
     css_class = u''
+    available = True
     
     def __init__(self, request):
         self.request = request

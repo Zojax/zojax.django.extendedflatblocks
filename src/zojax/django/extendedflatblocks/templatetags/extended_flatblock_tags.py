@@ -36,17 +36,7 @@ class FlatBlockContainerNode(template.Node):
         else:
             items = items.filter(~Q(only_authenticated=True))
 
-        def _item_available(item):
-            available_patterns = item.available_patterns.splitlines()
-            if available_patterns:
-                for pattern in available_patterns:
-                    if re.compile(pattern).match(request.path):
-                        return True
-                return False
-            else:
-                return True
-    
-        items = filter(_item_available, items)
+        items = filter(lambda x: x.isAvailable(request), items)
         context = RequestContext(request)
         return mark_safe(render_to_string(template, dict(container=container, items=map(lambda x: x.get(request), items)), context))
     
