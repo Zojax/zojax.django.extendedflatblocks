@@ -1,6 +1,6 @@
 {% for item in items %}
-  {% with item.flatblock as flatblock %}
-    <dl class="portlet portletName">
+  {% with item as flatblock %}
+    <dl class="portlet{% if flatblock.css_class %} {{ flatblock.css_class }}{% endif %}">
       <dt class="portletHeader">
         {{ flatblock.header }}
       </dt>

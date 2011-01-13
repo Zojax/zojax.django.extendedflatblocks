@@ -48,7 +48,7 @@ class FlatBlockContainerNode(template.Node):
     
         items = filter(_item_available, items)
         context = RequestContext(request)
-        return mark_safe(render_to_string(template, dict(container=container, items=items), context))
+        return mark_safe(render_to_string(template, dict(container=container, items=map(lambda x: x.get(request), items)), context))
     
 
 @register.tag

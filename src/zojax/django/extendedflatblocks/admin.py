@@ -4,14 +4,24 @@ from django.contrib import admin
 from flatblocks.admin import FlatBlockAdmin
 
 from models import FlatBlockExtension, FlatBlockContainer
-from forms import ExtendedFlatBlockAdminForm
+from forms import FlatBlockExtensionAdminForm
 
 
-admin.site.register(FlatBlockExtension)
+   
+class FlatBlockExtensionAdmin(admin.ModelAdmin):
+    form = FlatBlockExtensionAdminForm
+
+admin.site.register(FlatBlockExtension, FlatBlockExtensionAdmin)
 admin.site.register(FlatBlockContainer)
 
+
+class FlatBlockExtensionInline(admin.StackedInline):
+    model = FlatBlockExtension
+    max_num = 1
+
+
 class ExtendedFlatBlockAdmin(FlatBlockAdmin):
-    form = ExtendedFlatBlockAdminForm
+    inlines = [FlatBlockExtensionInline,]
     
 admin.site.unregister(FlatBlock)
 admin.site.register(FlatBlock, ExtendedFlatBlockAdmin)

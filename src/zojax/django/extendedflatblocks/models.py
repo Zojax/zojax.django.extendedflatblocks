@@ -4,6 +4,19 @@ from django.utils.translation import ugettext_lazy as _
 from flatblocks.models import FlatBlock
     
     
+PORTLET_REGISTRY = {}
+
+
+def get_portlet_choices(field):
+    res = []
+    if not field.required:
+        res += [(u"", _('---------'))]
+    return sorted(res + [(key, value.title) for key, value in PORTLET_REGISTRY.items()])
+    
+def get_portlet(name):
+    return PORTLET_REGISTRY[name]
+    
+    
 class FlatBlockContainer(models.Model):
     
     slug = models.CharField(max_length=255, unique=True, 
@@ -28,7 +41,8 @@ class FlatBlockContainer(models.Model):
     
 class FlatBlockExtension(models.Model):
     
-    flatblock = models.OneToOneField (FlatBlock, related_name="extension")
+    flatblock = models.ForeignKey(FlatBlock, blank=True, null=True)
+    portlet = models.CharField(max_length=300, blank=True, null=True)
     container = models.ForeignKey(FlatBlockContainer)
     position = models.CharField(max_length=100)
     available_patterns = models.TextField(blank=True)
@@ -41,4 +55,38 @@ class FlatBlockExtension(models.Model):
         verbose_name_plural = _(u"Flat block extensions")
         
     def __unicode__(self):
-        return '-'.join(map(str, (self.container.slug, self.flatblock.slug, self.position, self.id)))
+        if self.flatblock:
+            res = (self.container.slug, self.flatblock.slug, self.position, self.id)
+        try:
+            name = get_portlet(self.portlet).name
+        except KeyError:
+            name = ''
+        res = (self.container.slug, name, self.position, self.id)
+        return '-'.join(map(str, res))
+        
+    def get(self, request):
+        if self.flatblock:
+            return self.flatblock
+        portlet = get_portlet(self.portlet)(request)
+        portlet.update()
+        return portlet
+
+
+class Portlet(object):
+    
+    name = None
+    title = None
+    description = None
+    header = u''
+    content = u''
+    css_class = u''
+    
+    def __init__(self, request):
+        self.request = request
+    
+    def update(self):
+        pass
+    
+    
+def registerPortlet(cls):
+    PORTLET_REGISTRY[cls.name] = cls
