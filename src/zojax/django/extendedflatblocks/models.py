@@ -1,8 +1,10 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
 from flatblocks.models import FlatBlock
 import re
+
+from zojax.django.contentitem.models import CurrentSiteModelMixin
+
     
 PORTLET_REGISTRY = {}
 
@@ -17,7 +19,7 @@ def get_portlet(name):
     return PORTLET_REGISTRY[name]
     
     
-class FlatBlockContainer(models.Model):
+class FlatBlockContainer(CurrentSiteModelMixin):
     
     slug = models.CharField(max_length=255, unique=True, 
                 verbose_name=_('Slug'),
@@ -39,7 +41,7 @@ class FlatBlockContainer(models.Model):
         return self.slug
     
     
-class FlatBlockExtension(models.Model):
+class FlatBlockExtension(CurrentSiteModelMixin):
     
     flatblock = models.ForeignKey(FlatBlock, blank=True, null=True)
     portlet = models.CharField(max_length=300, blank=True, null=True)
