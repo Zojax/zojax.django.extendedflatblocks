@@ -27,6 +27,7 @@ setup(name='zojax.django.extendedflatblocks',
         ),
       install_requires=[
           'setuptools',
+          'zojax.django.contentitem'
           # -*- Extra requirements: -*-
       ],
       entry_points="""
