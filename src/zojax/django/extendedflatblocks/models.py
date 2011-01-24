@@ -21,7 +21,7 @@ def get_portlet(name):
     
 class FlatBlockContainer(CurrentSiteModelMixin):
     
-    slug = models.CharField(max_length=255, unique=True, 
+    slug = models.CharField(max_length=255,
                 verbose_name=_('Slug'),
                 help_text=_("A unique name used for reference in the templates"))
     header = models.CharField(blank=True, null=True, max_length=255,
@@ -31,8 +31,7 @@ class FlatBlockContainer(CurrentSiteModelMixin):
     
     class Meta:
         verbose_name = _(u"Flat block container")
-        verbose_name_plural = _(u"Flat block containers")
-    
+        verbose_name_plural = _(u"Flat block containers")    
     
     def get_items(self):
         return self.flatblockextension_set.select_related().order_by('position')
