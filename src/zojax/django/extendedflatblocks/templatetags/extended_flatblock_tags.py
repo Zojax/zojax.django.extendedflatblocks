@@ -16,12 +16,12 @@ register = template.Library()
 class FlatBlockContainerNode(template.Node):
 
     def __init__(self, request, name, template='extendedflatblocks/container.html'):
-        self.request = request
+        self._request = request
         self.name = name
         self.template = template
 
     def render(self, context):
-        request = self.request.resolve(context)
+        request = self._request.resolve(context)
         name = self.name.resolve(context)
         template = self.template
         if not isinstance(self.template, basestring):
