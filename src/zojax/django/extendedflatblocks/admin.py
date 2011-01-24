@@ -4,7 +4,7 @@ from django.contrib import admin
 from flatblocks.admin import FlatBlockAdmin
 
 from models import FlatBlockExtension, FlatBlockContainer
-from forms import FlatBlockExtensionAdminForm
+from forms import FlatBlockExtensionAdminForm, FlatBlockAdminForm
 
 
    
@@ -21,6 +21,7 @@ class FlatBlockExtensionInline(admin.StackedInline):
 
 
 class ExtendedFlatBlockAdmin(FlatBlockAdmin):
+    form = FlatBlockAdminForm
     inlines = [FlatBlockExtensionInline,]
     
 admin.site.unregister(FlatBlock)

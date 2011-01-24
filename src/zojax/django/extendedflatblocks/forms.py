@@ -5,6 +5,8 @@ from tinymce.widgets import AdminTinyMCE
 from flatblocks.models import FlatBlock
 
 from models import FlatBlockExtension, get_portlet_choices
+from flatblocks.models import FlatBlock
+from tinymce import widgets as tinymce_widgets
 
 
 class FlatBlockExtensionAdminForm(ModelForm):
@@ -21,3 +23,12 @@ class FlatBlockExtensionAdminForm(ModelForm):
         if not self.cleaned_data['portlet'] and not self.cleaned_data['flatblock']:
             raise forms.ValidationError(_(u"You need to select either portlet or flatblock"))
         return res
+    
+class FlatBlockAdminForm(ModelForm):
+    
+    class Meta:
+        model = FlatBlock
+    
+    def __init__(self, *kv, **kw):
+        super(FlatBlockAdminForm, self).__init__(*kv, **kw)
+        self.fields['content'].widget = tinymce_widgets.AdminTinyMCE()
