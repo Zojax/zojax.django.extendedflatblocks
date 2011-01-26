@@ -1,9 +1,11 @@
 {% for item in items %}
   {% with item as flatblock %}
     <dl class="portlet{% if flatblock.css_class %} {{ flatblock.css_class }}{% endif %}">
+      {% if flatblock.header %}
       <dt class="portletHeader">
         {{ flatblock.header }}
       </dt>
+      {% endif %}
       <dd class="portletItem odd">
         {{ flatblock.content|safe }}
       </dd>
