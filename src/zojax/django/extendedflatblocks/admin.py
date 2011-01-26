@@ -17,6 +17,7 @@ admin.site.register(FlatBlockContainer)
 
 class FlatBlockExtensionInline(admin.StackedInline):
     model = FlatBlockExtension
+    extra = 0
 
 
 class ExtendedFlatBlockAdmin(FlatBlockAdmin):
