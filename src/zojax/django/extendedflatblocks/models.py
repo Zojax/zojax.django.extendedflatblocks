@@ -45,6 +45,7 @@ class FlatBlockExtension(CurrentSiteModelMixin):
     flatblock = models.ForeignKey(FlatBlock, blank=True, null=True)
     portlet = models.CharField(max_length=300, blank=True, null=True)
     container = models.ForeignKey(FlatBlockContainer)
+    css_class = models.CharField(max_length=300, blank=True, null=True)
     position = models.CharField(max_length=100)
     available_patterns = models.TextField(blank=True)
     only_anonymous = models.BooleanField(default=False)
@@ -67,9 +68,12 @@ class FlatBlockExtension(CurrentSiteModelMixin):
         
     def get(self, request):
         if self.flatblock:
+            self.flatblock.css_class = self.css_class
             return self.flatblock
         portlet = get_portlet(self.portlet)(request)
         portlet.update()
+        if self.css_class:
+            portlet.css_class = self.css_class
         return portlet
     
     def isAvailable(self, request):
