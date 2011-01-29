@@ -74,6 +74,9 @@ class FlatBlockExtension(CurrentSiteModelMixin):
         portlet.update()
         if self.css_class:
             portlet.css_class = self.css_class
+            return self.flatblock
+        portlet = get_portlet(self.portlet)(request)
+        portlet.update()
         return portlet
     
     def isAvailable(self, request):
