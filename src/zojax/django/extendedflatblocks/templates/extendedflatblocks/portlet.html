@@ -1,0 +1,11 @@
+<dl class="portlet{% if portlet.css_class %} {{ portlet.css_class }}{% endif %}">
+  {% if portlet.header %}
+  <dt class="portletHeader">
+    {{ portlet.header }}
+  </dt>
+  {% endif %}
+  <dd class="portletItem odd">
+    {{ portlet.content|safe }}
+  </dd>
+  <dd class="portletFooter">&nbsp;</dd>
+</dl>
